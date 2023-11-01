@@ -21,27 +21,17 @@ public:
 };
 
 void swap(Adress* adress_1, Adress* adress_2) {
-    Adress *buf;
-    buf = adress_1;
-    adress_1 = adress_2;
-    adress_2 = buf;
+    Adress buf;
+    buf = *adress_1;
+    *adress_1 = *adress_2;
+    *adress_2 = buf;
 }
 
 void sort(Adress* adresses, int N) {
-    Adress buf;
-    for (int i = 0; i < N / 2; ++i) {
+    for (int i = 0; i < N; ++i) {
         for (int j = 0; j < N - 1; ++j) {
-            if (adresses[j].get_city()[0] < adresses[j + 1].get_city()[0]) {
-                buf = adresses[j];
-                adresses[j] = adresses[j + 1];
-                adresses[j + 1] = buf;
-                //swap(&adresses[j], &adresses[j + 1]);
-            }
-            if (adresses[j].get_city()[0] == adresses[j + 1].get_city()[0] && (adresses[j].get_street()[0] < adresses[j + 1].get_street()[0])) {
-                buf = adresses[j];
-                adresses[j] = adresses[j + 1];
-                adresses[j + 1] = buf;
-                //swap(&adresses[j], &adresses[j + 1]);
+            if (adresses[j].get_city() < adresses[j + 1].get_city()) {;
+                swap(&adresses[j], &adresses[j + 1]);
             }
         }
     }
@@ -51,8 +41,6 @@ void sort(Adress* adresses, int N) {
 int main()
 {
     setlocale(LC_ALL, "Russian");
-
-
     int N;
     std::string kursor;
     std::ifstream init_file("in.txt");
