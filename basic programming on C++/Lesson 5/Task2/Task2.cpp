@@ -37,7 +37,6 @@ void sort(Adress* adresses, int N) {
     }
 }
 
-
 int main()
 {
     setlocale(LC_ALL, "Russian");
