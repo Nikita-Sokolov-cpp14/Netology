@@ -6,9 +6,7 @@ protected:
     int num_sides;
     std::string name;
 public:
-    void print_num_sides(std::string name, int sides) { std::cout << name << ": " << sides << std::endl; }
-    int get_sides() { return num_sides; }
-    std::string get_name() { return name; }
+    void print_num_sides() { std::cout << name << ": " << num_sides << std::endl; }
 };
 class Tetragon : public Figure {
 public:
@@ -30,8 +28,8 @@ int main()
     Triangle trian;
     Other_figure figure;
 
-    tet.print_num_sides(tet.get_name(), tet.get_sides());
-    trian.print_num_sides(trian.get_name(), trian.get_sides());
-    figure.print_num_sides(figure.get_name(), figure.get_sides());
+    tet.print_num_sides();
+    trian.print_num_sides();
+    figure.print_num_sides();
     return 0;
 }
