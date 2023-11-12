@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{7790b28f-3124-4d31-bc66-48d3c9c9bbf7}</ProjectGuid>
-    <RootNamespace>Task1</RootNamespace>
+    <ProjectGuid>{0849e45d-bba2-464d-8d6a-ab74f0af7548}</ProjectGuid>
+    <RootNamespace>Task3</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -127,11 +127,29 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="calc.cpp" />
-    <ClCompile Include="Task 1.cpp" />
+    <ClCompile Include="sources\Figure.cpp" />
+    <ClCompile Include="sources\Parallelogram.cpp" />
+    <ClCompile Include="sources\Ravnobed_trng.cpp" />
+    <ClCompile Include="sources\Ravnostor_trng.cpp" />
+    <ClCompile Include="sources\Rectangle.cpp" />
+    <ClCompile Include="sources\Right_trng.cpp" />
+    <ClCompile Include="sources\Romb.cpp" />
+    <ClCompile Include="sources\Square.cpp" />
+    <ClCompile Include="sources\Tetragone.cpp" />
+    <ClCompile Include="sources\Triangle.cpp" />
+    <ClCompile Include="Task 3.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="calc.h" />
+    <ClInclude Include="headers\Figure.h" />
+    <ClInclude Include="headers\Parallelogram.h" />
+    <ClInclude Include="headers\Ravnobed_trng.h" />
+    <ClInclude Include="headers\Ravnostor_trng.h" />
+    <ClInclude Include="headers\Rectangle.h" />
+    <ClInclude Include="headers\Right_trng.h" />
+    <ClInclude Include="headers\Romb.h" />
+    <ClInclude Include="headers\Square.h" />
+    <ClInclude Include="headers\Tetragone.h" />
+    <ClInclude Include="headers\Triangle.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
