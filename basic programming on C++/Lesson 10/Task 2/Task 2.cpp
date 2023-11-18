@@ -34,9 +34,19 @@ public:
 		numerator_ += denominator_;
 		return *this;
 	}
-	Fraction& operator--(int) {
+	Fraction& operator++(int) {
+		Fraction tmp(numerator_, denominator_);
+		numerator_ += denominator_;
+		return tmp;
+	}
+	Fraction& operator--() {
 		numerator_ -= denominator_;
 		return *this;
+	}
+	Fraction& operator--(int) {
+		Fraction tmp(numerator_, denominator_);
+		numerator_ -= denominator_;
+		return tmp;
 	}
 	friend std::ostream& operator<<(std::ostream& left, Fraction right);
 };
@@ -66,6 +76,12 @@ int main() {
 	std::cout << "Значение дроби 1 = " << f_1 << std::endl;
 	std::cout << f_1 << "--" << " * " << f_2 << " = ";
 	std::cout << f_1-- * f_2 << std::endl;
+	std::cout << "Значение дроби 1 = " << f_1 << std::endl;
+	std::cout << "--" << f_1 << " * " << f_2 << " = ";
+	std::cout << --f_1 * f_2 << std::endl;
+	std::cout << "Значение дроби 1 = " << f_1 << std::endl;
+	std::cout << f_1 << "++" << " * " << f_2 << " = ";
+	std::cout << f_1++ * f_2 << std::endl;
 	std::cout << "Значение дроби 1 = " << f_1 << std::endl;
 	return 0;
 }
