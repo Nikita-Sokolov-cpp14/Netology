@@ -14,7 +14,8 @@
 [Dd]ebugPublic/
 [Rr]elease/
 [Rr]eleases/
-bild/
+build/
+out/
 x64/
 x86/
 
