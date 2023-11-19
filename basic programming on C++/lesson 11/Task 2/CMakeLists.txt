@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 3.10)
+project(Figure_by_CMake)
+set(sources_figures main.cpp Figure.cpp Triangle.cpp Tetragone.cpp)
+set(source_triangle Right_trng.cpp Ravnobed_trng Ravnostor_trng)
+set(source_tetragone Parallelogram.cpp Romb.cpp Rectangle.cpp Square.cpp)
+add_executable(Figure_by_CMake ${sources_figures} ${source_triangle} ${source_tetragone})
