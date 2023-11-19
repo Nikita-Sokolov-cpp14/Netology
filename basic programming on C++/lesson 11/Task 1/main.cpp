@@ -1,13 +1,11 @@
 #include <iostream>
 #include <string>
 
-int main () {
-    setlocale(LC_ALL, "Russian");
-    std::string Name;
-    //std::cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ð¸Ð¼Ñ: ";
-    std::cout << "Enter your name: ";
-    std::cin >> Name;
-    //std::cout << "Ð—Ð´Ñ€Ð°Ð²ÑÑ‚Ð²ÑƒÐ¹Ñ‚Ðµ, " << Name <<"!";
-    std::cout << "Hello, " << Name <<"!";
-    return 0;
+int main() {
+	setlocale(LC_ALL, "Russian");
+	std::string Name;
+	std::cout << "Ââåäèòå âàøå èìÿ: ";
+	std::cin >> Name;
+	std::cout << "Çäðàâñòâóéòå, " << Name << "!" << std::endl;
+	return 0;
 }
