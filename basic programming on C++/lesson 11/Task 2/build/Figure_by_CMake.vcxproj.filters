@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\Users\Nekit_PC\Desktop\C++\netology\basic programming on C++\lesson 11\Task 2\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Nekit_PC\Desktop\C++\netology\basic programming on C++\lesson 11\Task 2\Figure.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Nekit_PC\Desktop\C++\netology\basic programming on C++\lesson 11\Task 2\Triangle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Nekit_PC\Desktop\C++\netology\basic programming on C++\lesson 11\Task 2\Tetragone.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Nekit_PC\Desktop\C++\netology\basic programming on C++\lesson 11\Task 2\Right_trng.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Nekit_PC\Desktop\C++\netology\basic programming on C++\lesson 11\Task 2\Ravnobed_trng.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Nekit_PC\Desktop\C++\netology\basic programming on C++\lesson 11\Task 2\Ravnostor_trng.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Nekit_PC\Desktop\C++\netology\basic programming on C++\lesson 11\Task 2\Parallelogram.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Nekit_PC\Desktop\C++\netology\basic programming on C++\lesson 11\Task 2\Romb.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Nekit_PC\Desktop\C++\netology\basic programming on C++\lesson 11\Task 2\Rectangle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Nekit_PC\Desktop\C++\netology\basic programming on C++\lesson 11\Task 2\Square.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\Nekit_PC\Desktop\C++\netology\basic programming on C++\lesson 11\Task 2\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{9F22869B-DD8F-3F7B-B194-3B2AFC79A9F2}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

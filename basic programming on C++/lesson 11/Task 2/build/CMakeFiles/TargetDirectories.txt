@@ -1,0 +1,3 @@
+C:/Users/Nekit_PC/Desktop/C++/netology/basic programming on C++/lesson 11/Task 2/build/CMakeFiles/Figure_by_CMake.dir
+C:/Users/Nekit_PC/Desktop/C++/netology/basic programming on C++/lesson 11/Task 2/build/CMakeFiles/ALL_BUILD.dir
+C:/Users/Nekit_PC/Desktop/C++/netology/basic programming on C++/lesson 11/Task 2/build/CMakeFiles/ZERO_CHECK.dir
