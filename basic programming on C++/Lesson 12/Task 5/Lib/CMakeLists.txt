@@ -1,0 +1,6 @@
+CMAKE_MINIMUM_REQUIRED(VERSION 3.10)
+project(Figure_lib)
+set(sources_figures Figure.cpp Triangle.cpp Tetragone.cpp)
+set(source_triangle Right_trng.cpp Ravnobed_trng.cpp Ravnostor_trng.cpp)
+set(source_tetragone Parallelogram.cpp Romb.cpp Rectangle.cpp Square.cpp)
+add_library(Figure_lib SHARED ${sources_figures} ${source_triangle} ${source_tetragone})
