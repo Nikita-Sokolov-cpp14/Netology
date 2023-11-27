@@ -1,12 +1,10 @@
 #pragma once
-
 #include <iostream>
-#include <string>
 
-#ifndef DINAMICLIB_EXPORTS
-#define  TRIG_LIB_API __declspec(dllexport)
-#else
+#ifndef LEAVERLIB_EXPORTS
 #define TRIG_LIB_API __declspec(dllimport)
+#else
+#define  TRIG_LIB_API __declspec(dllexport)
 #endif
 
 class Leaver {

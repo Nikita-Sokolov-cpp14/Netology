@@ -3,5 +3,5 @@
 
 class Square : public Romb {
 public:
-    TRIG_LIB_API Square(int a);
+    Square(int a);
 };

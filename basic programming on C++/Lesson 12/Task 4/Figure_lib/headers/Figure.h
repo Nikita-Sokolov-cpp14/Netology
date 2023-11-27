@@ -2,10 +2,10 @@
 #include <string>
 #include <iostream>
 
-#ifndef DINAMIC_EXPORTS
-#define TRIG_LIB_API __declspec(dllexport)
-#else
+#ifndef FIGURELIB_EXPORTS
 #define TRIG_LIB_API __declspec(dllimport)
+#else
+#define TRIG_LIB_API __declspec(dllexport)
 #endif
 
 class Figure {

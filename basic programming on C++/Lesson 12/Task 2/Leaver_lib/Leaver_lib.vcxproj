@@ -21,7 +21,7 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{eaa16c83-95f0-4abf-a8c0-77ed05d4af57}</ProjectGuid>
+    <ProjectGuid>{f3d1b0b4-2ab8-4fdc-b831-e10f4449b976}</ProjectGuid>
     <RootNamespace>Leaverlib</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>

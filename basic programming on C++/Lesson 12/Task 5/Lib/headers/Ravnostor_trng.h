@@ -3,5 +3,5 @@
 
 class Ravnostor_trng : public Triangle {
 public:
-    TRIG_LIB_API Ravnostor_trng(int a);
+    Ravnostor_trng(int a);
 };

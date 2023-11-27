@@ -51,6 +51,7 @@ int main()
 
     Tetragone simple_tetragone(20, 40, 60, 240, 1, 2, 3, 6);
     print_info(&simple_tetragone);
+    system("pause");
 
     return 0;
 }

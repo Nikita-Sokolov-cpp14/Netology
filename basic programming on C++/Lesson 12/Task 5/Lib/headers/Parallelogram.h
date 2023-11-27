@@ -3,5 +3,5 @@
 
 class Parallelogram : public Tetragone {
 public:
-    TRIG_LIB_API Parallelogram(int A, int a, int b);
+    Parallelogram(int A, int a, int b);
 };

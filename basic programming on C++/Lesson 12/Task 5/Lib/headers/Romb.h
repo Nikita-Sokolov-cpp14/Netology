@@ -3,5 +3,5 @@
 
 class Romb : public Parallelogram {
 public:
-    TRIG_LIB_API Romb(int A, int a);
+    Romb(int A, int a);
 };

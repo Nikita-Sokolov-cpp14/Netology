@@ -12,6 +12,6 @@ public:
     int get_A();
     int get_B();
     int get_C();
-    TRIG_LIB_API Triangle(int a, int b, int c, int A, int B, int C);
-    TRIG_LIB_API void print_figure() override;
+    Triangle(int a, int b, int c, int A, int B, int C);
+    void print_figure() override;
 };
