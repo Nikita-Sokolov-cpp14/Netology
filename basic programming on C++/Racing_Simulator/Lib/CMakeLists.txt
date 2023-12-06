@@ -1,0 +1,6 @@
+CMAKE_MINIMUM_REQUIRED(VERSION 3.10)
+project(Racing_lib)
+set(Type_source Source/Ground.cpp Source/Air.cpp)
+set(Ground_source Source/Camel.cpp Source/CamelBoost.cpp Source/Centaur.cpp Source/BootsRover.cpp)
+set(Air_source Source/FlyingCapret.cpp Source/Eagle.cpp Source/Broomstic.cpp)
+add_library(Racing_lib SHARED ${Type_source} ${Ground_source} ${Air_source} Source/Racing.cpp Source/Transport.cpp)
