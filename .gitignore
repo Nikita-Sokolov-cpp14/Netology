@@ -17,6 +17,8 @@
 x64/
 x86/
 
+Catch2/
+
 bld/
 [Bb]in/
 [Oo]bj/
