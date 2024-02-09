@@ -1,6 +1,13 @@
 #include <iostream>
 
-#include "../Headers/List.h"
+#include "List.h"
+
+ListNode::ListNode(int value, ListNode* prev, ListNode* next)
+    : value(value), prev(prev), next(next)
+{
+    if (prev != nullptr) prev->next = this;
+    if (next != nullptr) next->prev = this;
+}
 
 List::List()
     : m_head(new ListNode(static_cast<int>(0))), m_size(0),

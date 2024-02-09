@@ -15,6 +15,10 @@ public:
     }
 
     T* operator[](int i) {
+        if (i >= num_lines || i < 0) {
+            throw std::invalid_argument("Invalid_index");
+        }
+
         return table[i];
     }
 
@@ -41,18 +45,29 @@ int main()
     int n = 2, m = 3;
     Table  <int>table(n, m);
 
-    for (int i = 0; i < n; ++i) {
-        for (int j = 0; j < m; ++j) {
-            table[i][j] = 3 * i + 2 * j;
+    try {
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < m; ++j) {
+                table[i][j] = 3 * i + 2 * j;
+            }
         }
+
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < m; ++j) {
+                std::cout << table[i][j] << "\t";
+            }
+            std::cout << std::endl;
+        }
+
+        std::cout << table[9][1] << std::endl;
+
+    }
+    catch (std::invalid_argument& inval_arg) {
+        std::cout << inval_arg.what() << std::endl;
     }
 
-    for (int i = 0; i < n; ++i) {
-        for (int j = 0; j < m; ++j) {
-            std::cout << table[i][j] << "\t";
-        }
-        std::cout << std::endl;
-    }
+
+
 
     return 0;
 }

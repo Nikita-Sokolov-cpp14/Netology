@@ -5,11 +5,16 @@ template <class T>
 T square(T value) {
     return value * value;
 }
+
 template <class T>
-void square(std::vector<T>& vec) {
-    for (auto& value : vec) {
-        value = value * value;
+std::vector<T> square(std::vector<T>& vec) {
+    std::vector<T> ans;
+
+    for (const auto& value : vec) {
+        ans.push_back(value * value);
     }
+
+    return ans;
 }
 
 int main()
@@ -29,10 +34,11 @@ int main()
     }
     std::cout << "}" << std::endl;
 
-    square(vec_1);
+    std::vector<int> square_vec_1;
+    square_vec_1 = square(vec_1);
 
     std::cout << "vec_1 ^ 2 = { ";
-    for (const auto& value : vec_1) {
+    for (const auto& value : square_vec_1) {
         std::cout << value << " ";
     }
     std::cout << "}" << std::endl;
@@ -43,10 +49,10 @@ int main()
     }
     std::cout << "}" << std::endl;
 
-    square(vec_2);
+    std::vector<double> square_vec_2 = square(vec_2);
 
     std::cout << "vec_2 ^ 2 = { ";
-    for (const auto& value : vec_2) {
+    for (const auto& value : square_vec_2) {
         std::cout << value << " ";
     }
     std::cout << "}" << std::endl;
