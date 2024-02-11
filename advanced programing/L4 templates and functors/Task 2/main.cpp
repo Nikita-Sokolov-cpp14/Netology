@@ -36,6 +36,20 @@ public:
         }
     }
 
+    Table(const Table& right) : num_lines(right.num_lines), num_columns(right.num_columns) {
+        
+        table = new T* [num_lines];
+        for (int i = 0; i < num_lines; ++i) {
+            table[i] = new T[num_columns];
+        }
+
+        for (int i = 0; i < num_lines; ++i) {
+            for (int j = 0; j < num_columns; ++j) {
+                table[i][j] = right[i][j];
+            }
+        }
+    }
+
     Buf_arr<T> operator[](int i) {
         if (i >= num_lines || i < 0) {
             throw std::invalid_argument("Invalid_index_in_column");
@@ -50,7 +64,7 @@ public:
             throw std::invalid_argument("Invalid_index_in_column");
         }
 
-        Buf_arr<const T> line(table[i], num_columns);
+        const Buf_arr<const T> line(table[i], num_columns);
         return line;
     }
 
@@ -69,7 +83,7 @@ public:
 
         table = new T* [num_lines];
         for (int i = 0; i < num_lines; ++i) {
-            table = new T [num_columns];
+            table[i] = new T[num_columns];
         }
     }
 
@@ -94,6 +108,7 @@ int main()
             }
         }
 
+        std::cout << "table = " << std::endl;
         for (int i = 0; i < n; ++i) {
             for (int j = 0; j < m; ++j) {
                 std::cout << table[i][j] << "\t";
@@ -109,18 +124,13 @@ int main()
         std::cout << inval_arg.what() << std::endl;
     }
 
-
     const Table<char> table_2(2, 2);
-    //table_2[0][0] = 'a';
+    auto const value = table_2[0][0];
 
-    std::cout << typeid(table_2).name() << std::endl;
-    std::cout << typeid(table_2[0]).name() << std::endl;
-    std::cout << typeid(table_2[0][0]).name() << std::endl;
+    Table<int> table_3(table);
 
-    auto const value = table_2[0]; //?
-    //std::cout << value[0] << std::endl;
-
-    //value = b;
+    Table<int> table_4(2, 2);
+    table_4 = table_3;
 
     return 0;
 }
