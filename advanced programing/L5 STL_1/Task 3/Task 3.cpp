@@ -31,16 +31,24 @@ public:
     }
 
 
-    void operator=(vector<T> right) {
-        logic_size = right.size();
+     vector<T>& operator=(const vector<T>& right) {
+
+         if (this == &right) {
+             return *this;
+         }
+
+        logic_size = right.logic_size;
+        fact_size = right.fact_size;
 
         delete[] vec;
 
-        vec = new T[logic_size];
+        vec = new T[fact_size];
 
         for (int i = 0; i < logic_size; ++i) {
             vec[i] = right.arr[i];
         }
+
+        return *this;
     }
 
     T& operator[](size_t index) {
@@ -72,17 +80,19 @@ public:
 
     void push_back(T value) {
         if (logic_size == fact_size) {
-            vector<T> buf_vec = *this;
-            delete[] vec;
 
             fact_size = fact_size * coef_size;
             logic_size++;
-            vec = new T[fact_size];
+
+            T* new_vec = new T[fact_size];
 
             for (int i = 0; i < logic_size - 1; ++i) {
-                vec[i] = buf_vec[i];
+                new_vec[i] = vec[i];
             }
-            vec[logic_size - 1] = value;
+            new_vec[logic_size - 1] = value;
+
+            delete[] vec;
+            vec = new_vec;
         }
         else {
             vec[logic_size] = value;
@@ -92,29 +102,32 @@ public:
 
     void push_front(T value) {
         if (logic_size == fact_size) {
-            vector<T> buf_vec = *this;
-            delete[] vec;
-
+            
             fact_size = fact_size * coef_size;
-            logic_size++;
-            vec = new T[fact_size];
 
-            vec[0] = value;
+            T* new_vec = new T[fact_size];
+
+            new_vec[0] = value;
             for (int i = 1; i < logic_size + 1; ++i) {
-                vec[i] = buf_vec[i - 1];
+                new_vec[i] = vec[i - 1];
             }
+            logic_size++;
+
+            delete[] vec;
+            vec = new_vec;
         }
         else {
-            vector<T> buf_vec = *this;
-            delete[] vec;
+            T* new_vec = new T[fact_size];
+
+            new_vec[0] = value;
+            for (int i = 1; i < logic_size + 1; ++i) {
+                new_vec[i] = vec[i - 1];
+            }
 
             logic_size++;
-            vec = new T[fact_size];
 
-            vec[0] = value;
-            for (int i = 1; i < logic_size + 1; ++i) {
-                vec[i] = buf_vec[i - 1];
-            }
+            delete[] vec;
+            vec = new_vec;
         }
     }
 
