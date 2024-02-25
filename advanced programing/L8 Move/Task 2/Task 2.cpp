@@ -18,7 +18,7 @@ public:
     }
 
     Big_number(Big_number&& right) noexcept {
-        digs = right.digs;
+        digs = std::move(right.digs);
     }
 
     Big_number& operator=(const Big_number& right) {
@@ -35,7 +35,7 @@ public:
         if (&right == this) {
             return *this;
         }
-        digs = right.digs;
+        digs = std::move(right.digs);
         return *this;
     }
 
@@ -136,7 +136,7 @@ Big_number operator*(Big_number left, Big_number right) {
         over = 0;
         
         if (num_of_decads == 0) {
-            mult = move(buf);
+            mult = std::move(buf);
         }
         else {
             auto it_buf = buf.rbegin();
@@ -164,7 +164,7 @@ Big_number operator*(Big_number left, Big_number right) {
                 mult_buf.push_front(over);
             }
 
-            mult = move(mult_buf);
+            mult = std::move(mult_buf);
         }
 
          num_of_decads++;
