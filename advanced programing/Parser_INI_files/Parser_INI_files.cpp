@@ -10,14 +10,13 @@
 
 
 class Section {
-private:
-    std::string name;
+protected:
     std::map<std::string, int> int_vals;
     std::map<std::string, double> double_vals;
     std::map<std::string, std::string> string_vals;
 public:
-    Section(std::map<std::string, std::string> init, std::string name_) : name(name_) {
-        
+    void set_vals(std::map<std::string, std::string> init) {
+
         for (const auto& val_pair : init) {
 
             int cifrs = 0;
@@ -42,13 +41,32 @@ public:
                 string_vals[val_pair.first] = val_pair.second;
             }
         }
-        
     }
+
+    void print() {
+        for (const auto& pair : int_vals) {
+            std::cout << pair.first << " = " << pair.second << std::endl;
+        }
+
+        for (const auto& pair : double_vals) {
+            std::cout << pair.first << " = " << pair.second << std::endl;
+        }
+
+        for (const auto& pair : string_vals) {
+            std::cout << pair.first << " = " << pair.second << std::endl;
+        }
+
+    }
+
+    void get_val(std::string name, int& val) { val = int_vals[name]; }
+    void get_val(std::string name, double& val) { val = double_vals[name]; }
+    void get_val(std::string name, std::string& val) { val = string_vals[name]; }
+
 };
 
 class Parser {
 protected:
-    std::unordered_map<std::string, std::map<std::string, std::string> > full;
+    std::map<std::string, std::unique_ptr<Section>> full;
     std::ifstream input_file;
     std::string kursor;
 
@@ -58,6 +76,8 @@ public:
         input_file.open(filename);
 
         if (input_file.is_open()) {
+
+            std::map<std::string, int> count_name_section;
            
             std::string sec_name = "";
 
@@ -100,18 +120,27 @@ public:
                 
                 if (!vals.empty()) {
 
-                    auto it = full.find(sec_name);
-                    if (it == full.end()) {
-                        full[sec_name] = vals;
+                    count_name_section[sec_name]++;
+
+                    if (count_name_section[sec_name] == 1) {
+
+                        full[sec_name] = std::make_unique<Section>();
+                        full[sec_name]->set_vals(vals);
                     }
                     else {
-                        for (const auto& value : vals) {
-                            full[sec_name][value.first] = value.second;
-                        }
+                        full[sec_name]->set_vals(vals);
                     }
                 }
                 sec_name = "";
             }
+        }
+    }
+
+    void print() {
+
+        for (const auto& pair : full) {
+            std::cout << pair.first << std::endl;
+            pair.second->print();
         }
     }
 
@@ -122,37 +151,7 @@ public:
     template <class T>
     T get_value(std::string key) {
 
-        std::string sec_name = key.substr(0, key.find("."));
-        std::string val_name = key.substr(key.find(".") + 1, key.length() - 1);
 
-        std::string val = full[sec_name][val_name];
-        std::string type = "string";
-
-
-        std::cout << full[sec_name]["var1"] << std::endl;
-        std::cout << sec_name << " " << val_name << " " << val << std::endl;
-
-        int cifrs = 0;
-        int dot = 0;
-
-        for (const auto& symb : val) {
-            if (static_cast<int>(symb) >= static_cast<int>('0') && static_cast<int>(symb) <= static_cast<int>('9')) {
-                cifrs++;
-            }
-            if (static_cast<int>(symb) == static_cast<int>('.')) {
-                dot++;
-            }
-        }
-
-        if (cifrs == val.length()) {
-            int a = std::stoi(val);
-        }
-        else if (dot == 1 && cifrs == val.length() - 1) {
-            double b = std::stod(val);
-        }
-        else {
-            std::string c = val;
-        }
 
         return 1;
     }
@@ -166,7 +165,22 @@ int main()
 
     Parser P1("input.ini");
 
-    P1.get_value<int>("s1.var1");
+    //P1.print();
+
+    //P1.get_value<int>("s1.var1");
+
+
+    std::map<std::string, std::string> m1;
+
+    m1["var1"] = "10";
+    m1["var2"] = "13.40";
+    m1["var3"] = "string";
+
+    Section S1;
+    S1.set_vals(m1);
+    S1.print();
+
+    auto a = S1.gel_val_2<int>("var1");
 
     return 0;
 }
