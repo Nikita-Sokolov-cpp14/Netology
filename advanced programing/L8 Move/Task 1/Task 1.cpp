@@ -4,7 +4,12 @@
 template<class T>
 void move_vectors(std::vector<T>& one, std::vector<T>& two) {
     
-    two = std::move(one);
+    for (const auto& val : one) {
+        two.push_back(val);
+    }
+
+    one = {};
+
 }
 
 int main()
