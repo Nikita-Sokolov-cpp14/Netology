@@ -2,7 +2,6 @@
 
 #include <map>
 #include <string>
-#include <unordered_map>
 #include <memory>
 #include <vector>
 #include <fstream>
@@ -58,10 +57,29 @@ public:
 
     }
 
-    void get_val(std::string name, int& val) { val = int_vals[name]; }
-    void get_val(std::string name, double& val) { val = double_vals[name]; }
-    void get_val(std::string name, std::string& val) { val = string_vals[name]; }
+    
+    template <class T>
+    operator std::map<std::string, T>() const {
+        if (typeid(T) == typeid(int)) { return &int_vals; }
+        else if (typeid(T) == typeid(double)) { return &double_vals; }
+        else if (typeid(T) == typeid(std::string)) { return &string_vals; }
+    }
+    
 
+    //вариант 2
+    /*
+    template<class T>
+    T get_val(std::string name) {
+        if (typeid(T) == typeid(int)) { return int_vals[name]; }
+        else if (typeid(T) == typeid(double)) { return double_vals[name]; }
+        else if (typeid(T) == typeid(std::string)) { return string_vals[name]; }
+    }
+    */
+
+    //вариант 3
+    //void get_val(std::string name, int& val) { val = int_vals[name]; }
+    //void get_val(std::string name, double& val) { val = double_vals[name]; }
+    //void get_val(std::string name, std::string& val) { val = string_vals[name]; }
 };
 
 class Parser {
@@ -78,7 +96,6 @@ public:
         if (input_file.is_open()) {
 
             std::map<std::string, int> count_name_section;
-           
             std::string sec_name = "";
 
             bool flag = 1;
@@ -150,10 +167,15 @@ public:
 
     template <class T>
     T get_value(std::string key) {
+        std::string name_sec = key.substr(0, key.find('.'));
+        std::string name_val = key.substr(key.find('.') + 1, key.length());
 
 
+        auto vals = static_cast<std::map<std::string, T>>(*full[name_sec]);
+        T ansv = vals[name_val];
 
-        return 1;
+        return ansv;
+
     }
 };
 
@@ -169,18 +191,7 @@ int main()
 
     //P1.get_value<int>("s1.var1");
 
-
-    std::map<std::string, std::string> m1;
-
-    m1["var1"] = "10";
-    m1["var2"] = "13.40";
-    m1["var3"] = "string";
-
-    Section S1;
-    S1.set_vals(m1);
-    S1.print();
-
-    auto a = S1.gel_val_2<int>("var1");
+    int a = P1.get_value<int>("s1.var1");
 
     return 0;
 }
