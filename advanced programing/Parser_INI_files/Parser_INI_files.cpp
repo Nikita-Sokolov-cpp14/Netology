@@ -7,13 +7,12 @@
 #include <fstream>
 #include <windows.h>
 
-
 class Section {
 private:
     std::map<std::string, int> int_vals;
     std::map<std::string, double> double_vals;
     std::map<std::string, std::string> string_vals;
-    std::map<std::string, int> names;
+    std::map<std::string, std::string> names;
 
 public:
     void set_vals(std::map<std::string, std::string> init) {
@@ -33,15 +32,15 @@ public:
             }
 
             if (cifrs == val_pair.second.length()) {
-                names["int " + val_pair.first]++;
+                names[val_pair.first] = "int";
                 int_vals[val_pair.first] = std::stoi(val_pair.second);
             }
             else if (dot == 1 && cifrs == val_pair.second.length() - 1) {
-                names["double " + val_pair.first]++;
+                names[val_pair.first] = "double";
                 double_vals[val_pair.first] = std::stod(val_pair.second);
             }
             else {
-                names["string " + val_pair.first]++;
+                names[val_pair.first] = "string";
                 string_vals[val_pair.first] = val_pair.second;
             }
         }
@@ -63,25 +62,33 @@ public:
 
     void print_names() {
         for (const auto& pair : names) {
-            std::cout << pair.first << ", " << std::endl;
+            std::cout << pair.second << ": " << pair.first << ", " << std::endl;
         }
     }
 
     template <class T>
     T get_val(std::string name) {
-
-        std::string key = typeid(T).name();
-        key = key + " " + name; //иначе выдает ошибку о сумме 2 указателей
        
-        if (!names.count(key)) {
-            throw std::invalid_argument("переменная " + name + " не найдена");
-        }
-
         T ansv;
 
-        if constexpr (std::is_same_v<T, int>) { ansv =  int_vals[name]; }
-        else if constexpr (std::is_same_v<T, double>) { ansv = double_vals[name]; }
-        else if constexpr (std::is_same_v<T, std::string>) { ansv = string_vals[name]; }
+        if constexpr (std::is_same_v<T, int>) { 
+            if (!int_vals.count(name)) {
+                throw std::invalid_argument("переменная " + name + " типа int не найдена");
+            }
+            ansv = int_vals[name];
+        }
+        else if constexpr (std::is_same_v<T, double>) { 
+            if (!double_vals.count(name)) {
+                throw std::invalid_argument("переменная " + name + " типа double не найдена");
+            }
+            ansv = double_vals[name]; 
+        }
+        else if constexpr (std::is_same_v<T, std::string>) { 
+            if (!string_vals.count(name)) {
+                throw std::invalid_argument("переменная " + name + " типа string не найдена");
+            }
+            ansv = string_vals[name];
+        }
 
         return ansv;
     }
@@ -90,15 +97,16 @@ public:
 class Parser {
 protected:
     std::map<std::string, std::unique_ptr<Section>> full;
-    std::ifstream input_file;
     std::string kursor;
+    std::string filename;
 
 public:
-    Parser(std::string filename) { input_file.open(filename); }
+    Parser(std::string filename_) : filename(filename_) {}
 
     void read_file() {
-        if (input_file.is_open()) {
+        std::ifstream input_file(filename);
 
+        if (input_file.is_open()) {
 
             std::map<std::string, int> count_name_section;
             std::string sec_name;
@@ -143,11 +151,17 @@ public:
 
 
                     if (kursor[0] != '[' && kursor[0] != ';' && kursor[0] != '\n') {
+
                         int pos = kursor.find("=");
-                        if (pos == kursor.length()) {
+                        if (pos == -1) {
                             throw std::logic_error("Неверный синтаксис в строке " + std::to_string(number_line));
                         }
+
                         vals[kursor.substr(0, pos)] = kursor.substr(pos + 1, kursor.find(";") - pos - 1);
+
+                        if (vals[kursor.substr(0, pos)] == "") {
+                            throw std::logic_error("Неверный синтаксис в строке " + std::to_string(number_line));
+                        }
                     }
 
                     flag = 0;
@@ -172,11 +186,11 @@ public:
             }
         }
         else {
-            throw std::logic_error("file not found");
+            throw std::logic_error("Файл не найден");
         }
     }
 
-    void print() {
+    void print_all() {
 
         for (const auto& pair : full) {
             std::cout << pair.first << std::endl;
@@ -184,14 +198,14 @@ public:
         }
     }
 
-    ~Parser() {
-        input_file.close();
-    }
-
     template <class T>
     T get_value(std::string key) {
         std::string name_sec = key.substr(0, key.find('.'));
         std::string name_val = key.substr(key.find('.') + 1, key.length());
+
+        if (full.empty()) {
+            throw std::logic_error("Файл пустой или не был прочитан!");
+        }
 
         T ansv;
 
@@ -209,6 +223,26 @@ public:
         return ansv;
 
     }
+
+    Parser& operator=(const Parser& right) = delete;
+    Parser(const Parser& right) = delete;
+
+    Parser& operator=(Parser&& right) {
+        if (&right == this) {
+            return *this;
+        }
+
+        filename = right.filename;
+        full = std::move(right.full);
+
+        return *this;
+    }
+    Parser(Parser&& right) {
+        filename = right.filename;
+        full = std::move(right.full);
+    }
+
+    ~Parser() {}
 };
 
 int main()
@@ -226,9 +260,19 @@ int main()
         return 0;
     }
 
-    int a = P1.get_value<int>("S1.var123");
+    int a;
+    std::string b;
 
-    std::cout << a;
+    try {
+        a = P1.get_value<int>("S1.var2");
+        b = P1.get_value<std::string>("S1.var1");
+    }
+    catch (std::logic_error& err) {
+        std::cout << err.what() << std::endl;
+    }
+
+    std::cout << "a = " << a << std::endl;
+    std::cout << "b = " << b << std::endl;
 
     return 0;
 }

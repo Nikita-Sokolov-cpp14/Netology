@@ -1,0 +1,25 @@
+<mxfile host="app.diagrams.net" modified="2024-03-10T10:45:35.616Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 YaBrowser/24.1.0.0 Safari/537.36" etag="U_vTjxPEGDa8VIpp3p1i" version="24.0.4" type="device">
+  <diagram name="Страница — 1" id="i1lmPdJK9Kp4uT7BjQxD">
+    <mxGraphModel dx="721" dy="482" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="Ofw6VoXc4brhXmuZWHFn-2" value="&lt;b&gt;СОТРУДНИКИ&lt;/b&gt;&lt;div&gt;&lt;b&gt;&lt;br&gt;&lt;/b&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;1. id&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;2.&amp;nbsp; Категория&lt;/span&gt;&lt;br&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="204" y="100" width="210" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="qzCjSZsGS60A9f426NLd-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="Ofw6VoXc4brhXmuZWHFn-3" target="Ofw6VoXc4brhXmuZWHFn-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Ofw6VoXc4brhXmuZWHFn-3" value="&lt;b&gt;Рядовые сотрудники&lt;/b&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;1. id&lt;/div&gt;&lt;div&gt;2. Имя&lt;/div&gt;&lt;div&gt;3. Отдел&lt;/div&gt;&lt;div&gt;4. Начальник&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="160" y="350" width="120" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="qzCjSZsGS60A9f426NLd-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="qzCjSZsGS60A9f426NLd-1" target="Ofw6VoXc4brhXmuZWHFn-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="qzCjSZsGS60A9f426NLd-1" value="&lt;b&gt;Начальники&lt;/b&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;1. id&lt;/div&gt;&lt;div&gt;2. Имя&lt;/div&gt;&lt;div&gt;3. Отдел&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="360" y="350" width="120" height="100" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
