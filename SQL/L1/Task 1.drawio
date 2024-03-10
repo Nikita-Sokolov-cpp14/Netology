@@ -1,0 +1,31 @@
+<mxfile host="app.diagrams.net" modified="2024-03-04T10:37:59.894Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 YaBrowser/24.1.0.0 Safari/537.36" etag="xwt1_REWQv71g2p2VaKK" version="24.0.1" type="device">
+  <diagram name="Страница — 1" id="dW-wqM3ZpH82boq5X5AG">
+    <mxGraphModel dx="721" dy="482" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="DSmmjA6y5i1saCxuhXYl-7" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="DSmmjA6y5i1saCxuhXYl-1" target="DSmmjA6y5i1saCxuhXYl-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="DSmmjA6y5i1saCxuhXYl-1" value="&lt;b&gt;ЖАНР&lt;/b&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;1. ID (PK)&lt;/div&gt;&lt;div&gt;2. Название&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="90" y="100" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="DSmmjA6y5i1saCxuhXYl-8" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="DSmmjA6y5i1saCxuhXYl-2" target="DSmmjA6y5i1saCxuhXYl-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="DSmmjA6y5i1saCxuhXYl-2" value="&lt;b&gt;ИСПОЛНИТЕЛИ&lt;/b&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;1. Имя (PK)&lt;/div&gt;&lt;div&gt;2. Жанр (FK)&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="82.5" y="205" width="135" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="DSmmjA6y5i1saCxuhXYl-10" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="DSmmjA6y5i1saCxuhXYl-3" target="DSmmjA6y5i1saCxuhXYl-9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="DSmmjA6y5i1saCxuhXYl-3" value="&lt;b&gt;АЛЬБОМЫ&lt;/b&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;1. Название ()PK&lt;/div&gt;&lt;div&gt;2. Год выпуска&lt;/div&gt;&lt;div&gt;3. исполнитель (FK)&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="310" y="195" width="140" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="DSmmjA6y5i1saCxuhXYl-9" value="&lt;b&gt;ТРЕКИ&lt;/b&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;1. Название&lt;/div&gt;&lt;div&gt;2. Длительность&lt;/div&gt;&lt;div&gt;3. Альбом (FK)&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="550" y="195" width="120" height="110" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

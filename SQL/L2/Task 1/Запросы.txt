@@ -1,0 +1,46 @@
+CREATE TABLE IF NOT EXISTS Ganr (
+	id SERIAL PRIMARY KEY,
+	ganr_name VARCHAR(100) UNIQUE NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS Musician (
+	id SERIAL PRIMARY KEY,
+	psevdonim VARCHAR(100) UNIQUE NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS Ganr_musician (
+	psevdonim_id INT REFERENCES Ganr(id),
+	ganr_name_id INT REFERENCES Musician(id),
+	CONSTRAINT pk_G_M PRIMARY KEY (psevdonim_id, ganr_name_id)
+);
+
+CREATE TABLE IF NOT EXISTS Albom (
+	albom_name VARCHAR(100) PRIMARY KEY,
+	year_release INT NOT NULL,
+	name_musician VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS Albom_musician (
+	psevdonim_id INT REFERENCES Musician(id),
+	albom_name VARCHAR(100) REFERENCES ALbom(albom_name),
+	CONSTRAINT pk_A_M PRIMARY KEY (psevdonim_id, albom_name)
+);
+
+CREATE TABLE IF NOT EXISTS Track (
+	track_name VARCHAR(100) PRIMARY KEY,
+	duration INT NOT NULL,
+	albom_name VARCHAR(100) REFERENCES Albom(albom_name)
+);
+
+CREATE TABLE IF NOT EXISTS Book (
+	id SERIAL PRIMARY KEY,
+	book_name VARCHAR(100) UNIQUE,
+	year_release INT CHECK(year_release > 0)
+);
+
+CREATE TABLE IF NOT EXISTS Book_track (
+	track_name VARCHAR(100) REFERENCES Track(track_name),
+	book_id INT REFERENCES Book(id),
+	CONSTRAINT pk_B_T PRIMARY KEY (track_name, book_id)
+);
+
