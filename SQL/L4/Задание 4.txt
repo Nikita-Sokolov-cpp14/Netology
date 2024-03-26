@@ -1,0 +1,41 @@
+--Названия альбомов, в которых присутствуют исполнители более чем одного жанра.
+SELECT DISTINCT a.albom_name  FROM albom a 
+JOIN albom_musician am ON am.albom_name = a.albom_name 
+JOIN musician m ON m.id = am.psevdonim_id 
+WHERE m.psevdonim IN (
+	SELECT m.psevdonim  FROM ganr g
+	JOIN ganr_musician gm ON gm.ganr_name_id = g.id 
+	JOIN musician m ON m.id  = gm.psevdonim_id 
+	GROUP BY m.psevdonim 
+	HAVING COUNT(*) > 1
+);
+
+--Наименования треков, которые не входят в сборники.
+SELECT t.track_name, COUNT(bt.track_name) FROM track t 
+LEFT JOIN book_track bt ON bt.track_name = t.track_name 
+GROUP BY t.track_name
+HAVING COUNT(bt.track_name) = 0;
+
+--Исполнитель или исполнители, написавшие самый короткий по продолжительности трек, — теоретически таких треков может быть несколько.
+SELECT m.psevdonim, t.duration  FROM musician m
+JOIN albom_musician am ON am.psevdonim_id = m.id 
+JOIN albom a ON a.albom_name  = am.albom_name 
+JOIN track t ON t.albom_name = a.albom_name 
+WHERE t.track_name IN (
+	SELECT MIN(t.track_name) FROM track t 
+);
+
+--Названия альбомов, содержащих наименьшее количество треков.
+SELECT a.albom_name, COUNT(*) FROM albom a 
+JOIN track t ON t.albom_name = a.albom_name 
+GROUP BY a.albom_name
+HAVING COUNT(*) = (
+	SELECT MIN(ct) FROM (
+		SELECT COUNT(*) ct FROM albom a 
+		JOIN track t ON t.albom_name = a.albom_name
+		GROUP BY a.albom_name
+	)	
+);
+
+
+

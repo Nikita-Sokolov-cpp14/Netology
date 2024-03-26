@@ -1,0 +1,35 @@
+--Количество исполнителей в каждом жанре.
+SELECT m.psevdonim , COUNT(psevdonim_id) 
+FROM ganr_musician g 
+JOIN musician m ON g.psevdonim_id = m.id 
+GROUP BY m.psevdonim 
+ORDER BY COUNT(psevdonim_id) DESC;
+
+--Количество треков, вошедших в альбомы 2019–2020 годов.
+SELECT COUNT(*) FROM track t
+JOIN albom a  ON t.albom_name  = a.albom_name 
+WHERE a.year_release  BETWEEN 2019 AND 2020
+
+--Средняя продолжительность треков по каждому альбому.
+SELECT t.albom_name, AVG(duration) FROM track t
+JOIN albom a ON t.albom_name  = a.albom_name 
+GROUP BY t.albom_name
+
+--Все исполнители, которые не выпустили альбомы в 2020 году.
+SELECT psevdonim FROM musician m 
+WHERE psevdonim NOT IN (
+	SELECT  m.psevdonim FROM musician m
+	JOIN Albom_musician am ON am.psevdonim_id = m.id
+	JOIN Albom a ON a.albom_name = am.albom_name 
+	WHERE a.year_release = 2020
+);
+
+--Названия сборников, в которых присутствует конкретный исполнитель (выберите его сами).
+SELECT DISTINCT b.book_name  FROM musician m 
+JOIN albom_musician am ON am.psevdonim_id = m.id 
+JOIN albom a ON a.albom_name = am.albom_name 
+JOIN track t ON a.albom_name = t.albom_name 
+JOIN book_track bt ON bt.track_name = t.track_name 
+JOIN book b ON b.id  = bt.book_id 
+WHERE psevdonim LIKE '%Михаил Шумный%';
+
