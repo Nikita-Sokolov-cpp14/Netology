@@ -30,8 +30,8 @@ public:
 
 	template<class Action>
 	void persist(Action& a) {
-		Wt::Dbo::belongsTo(a, idPublisher, "idPublisher");
 		Wt::Dbo::field(a, title, "title");
+		Wt::Dbo::belongsTo(a, idPublisher, "idPublisher");
 		Wt::Dbo::hasMany(a, stocks, Wt::Dbo::ManyToOne, "idBook");
 	}
 };
@@ -51,8 +51,8 @@ public:
 class Stock {
 public:
 	int count = 0;
-	Wt::Dbo::ptr<Shop> idShop;
 	Wt::Dbo::ptr<Book> idBook;
+	Wt::Dbo::ptr<Shop> idShop;
 	Wt::Dbo::collection<Wt::Dbo::ptr<Sale>> sales;
 
 
@@ -68,16 +68,16 @@ public:
 class Sale {
 public:
 	int price = 0;
+	int count = 0;
 	std::string dataSale = "";
 	Wt::Dbo::ptr<Stock> idStock;
-	int count = 0;
 
 	template<class Action>
 	void persist(Action& a) {
+		Wt::Dbo::field(a, count, "count");
 		Wt::Dbo::field(a, price, "price");
 		Wt::Dbo::field(a, dataSale, "dataSale");
 		Wt::Dbo::belongsTo(a, idStock, "id_stock");
-		Wt::Dbo::field(a, count, "count");
 	}
 };
 
@@ -110,101 +110,87 @@ int main() {
 
 		//заполнение таблиц
 		Wt::Dbo::Transaction tr1(s);
-		std::unique_ptr<Publisher> p1(new Publisher);
-		p1->name = "Александр";
-		Wt::Dbo::ptr<Publisher> p1Db1 = s.add(std::move(p1));
+		std::unique_ptr<Publisher> p1(new Publisher{ "Publisher_Alexander's", {} });
+		std::unique_ptr<Publisher> p2(new Publisher{ "Publisher_Mihail's", {} });
 
-		std::unique_ptr<Publisher> p2(new Publisher);
-		p2->name = "Михаил";
-		Wt::Dbo::ptr<Publisher> p1Db2 = s.add(std::move(p2));
 
-		Wt::Dbo::ptr<Publisher> pub1 = s.find<Publisher>().where("id = ?").bind("1");
-		if (pub1) {
-			std::unique_ptr<Book> book(new Book);
-			book->title = "Капитанская дочка";
-			Wt::Dbo::ptr<Book> bDb = s.add(std::move(book));
-			pub1.modify()->books.insert(bDb);
-		}
+		Wt::Dbo::ptr<Publisher> pupDb1 = s.add(std::move(p1));
+		Wt::Dbo::ptr<Publisher> pubDb2 = s.add(std::move(p2));
 
-		Wt::Dbo::ptr<Publisher> pub2 = s.find<Publisher>().where("id = ?").bind("2");
-		if (pub1) {
-			std::unique_ptr<Book> book(new Book);
-			book->title = "Герой нашего времени";
-			Wt::Dbo::ptr<Book> bDb = s.add(std::move(book));
-			pub2.modify()->books.insert(bDb);
-		}
+		std::unique_ptr<Book> book1(new Book{ "The Daughter of The Commandant", pupDb1, {} });
+		Wt::Dbo::ptr<Book> bDb1 = s.add(std::move(book1));
+		std::unique_ptr<Book> book2(new Book{ "Queen of Spades", pupDb1, {} });
+		Wt::Dbo::ptr<Book> bDb2 = s.add(std::move(book2));
+		std::unique_ptr<Book> book3(new Book{ "A Hero of Our Time", pubDb2, {} });
+		Wt::Dbo::ptr<Book> bDb3 = s.add(std::move(book3));
+		std::unique_ptr<Book> book4(new Book{ "The Cemetery", pubDb2, {} });
+		Wt::Dbo::ptr<Book> bDb4 = s.add(std::move(book4));
 
-		Wt::Dbo::ptr<Book> book2 = s.find<Book>().where("id = ?").bind("2");
-		if (book2) {
-			std::unique_ptr<Stock> stock(new Stock);
-			stock->count = 17;
-			Wt::Dbo::ptr<Stock> stockDb = s.add(std::move(stock));
-			book2.modify()->stocks.insert(stockDb);
-		}
-
-		Wt::Dbo::ptr<Book> book1 = s.find<Book>().where("id = ?").bind("1");
-		if (book1) {
-			std::unique_ptr<Stock> stock(new Stock);
-			stock->count = 11;
-			Wt::Dbo::ptr<Stock> stockDb = s.add(std::move(stock));
-			book1.modify()->stocks.insert(stockDb);
-		}
-
-		std::unique_ptr<Shop> shop2(new Shop);
-		shop2->name = "Произведения Лермонтова";
+		std::unique_ptr<Shop> shop2(new Shop{ "Shop 2", {} });
 		Wt::Dbo::ptr<Shop> shopDb2 = s.add(std::move(shop2));
-
-		std::unique_ptr<Shop> shop1(new Shop);
-		shop1->name = "Произведения Пушкина";
+		std::unique_ptr<Shop> shop1(new Shop{ "Shop 1", {} });
 		Wt::Dbo::ptr<Shop> shopDb1 = s.add(std::move(shop1));
 
-		Wt::Dbo::ptr<Stock> stock1 = s.find<Stock>().where("id = ?").bind("1");
-		if (stock1) {
-			stock1.modify()->idShop = shopDb1;
-		}
+		std::unique_ptr<Stock> stock1(new Stock{11, bDb1, shopDb1, {} });
+		Wt::Dbo::ptr<Stock> stockDb1 = s.add(std::move(stock1));
+		std::unique_ptr<Stock> stock2(new Stock{ 17, bDb2, shopDb1, {} });
+		Wt::Dbo::ptr<Stock> stockDb2 = s.add(std::move(stock2));
+		std::unique_ptr<Stock> stock3(new Stock{ 19, bDb3, shopDb2, {} });
+		Wt::Dbo::ptr<Stock> stockDb3 = s.add(std::move(stock3));
+		std::unique_ptr<Stock> stock4(new Stock{ 23, bDb4, shopDb2, {} });
+		Wt::Dbo::ptr<Stock> stockDb4 = s.add(std::move(stock4));
 
-		Wt::Dbo::ptr<Stock> stock2 = s.find<Stock>().where("id = ?").bind("2");
-		if (stock2) {
-			stock2.modify()->idShop = shopDb2;
-		}
+		std::unique_ptr<Sale> sale1(new Sale{ 85, 27, "2024-02-14", stockDb1});
+		Wt::Dbo::ptr<Sale> saleDb1 = s.add(std::move(sale1));
+		std::unique_ptr<Sale> sale2(new Sale{ 104, 39, "2024-01-18", stockDb2 });
+		Wt::Dbo::ptr<Sale> saleDb2 = s.add(std::move(sale2));
 
-		Wt::Dbo::ptr<Stock> stock_sale_1 = s.find<Stock>().where("id = ?").bind("1");
-		if (stock_sale_1) {
-			std::unique_ptr<Sale> sale(new Sale);
-			sale->count = 114;
-			sale->dataSale = "2024-05-01";
-			sale->price = 111;
-			Wt::Dbo::ptr<Sale> saleDb = s.add(std::move(sale));
-			stock_sale_1.modify()->sales.insert(saleDb);
-		}
-
-		Wt::Dbo::ptr<Stock> stock_sale_2 = s.find<Stock>().where("id = ?").bind("2");
-		if (stock_sale_2) {
-			std::unique_ptr<Sale> sale(new Sale);
-			sale->count = 109;
-			sale->dataSale = "2024-07-11";
-			sale->price = 117;
-			Wt::Dbo::ptr<Sale> saleDb = s.add(std::move(sale));
-			stock_sale_2.modify()->sales.insert(saleDb);
-		}
 		tr1.commit();
 
 		Wt::Dbo::Transaction tr2(s);
 
-		std::string name;
-		std::cout << "Введите имя издателя:" << std::endl;
-		std::cin >> name;
+		std::string find_val;
+		std::cout << "Введите по какому параметру искать: name или id:" << std::endl;
+		std::cin >> find_val;
 
-		Wt::Dbo::ptr<Publisher> find_publisher = s.find<Publisher>().where("name = ?").bind(name);
-		//???
-		Wt::Dbo::ptr<Publisher> find_publisher__ = s.find<Publisher>().where("name = ?").bind("Александр");
+		Wt::Dbo::ptr<Publisher> find_publisher = nullptr;
 
-		if (find_publisher__) {
+		if (find_val == "name") {
+			std::string name;
+			std::cout << "Введите название издателя:" << std::endl;
+			std::cin >> name;
+
+			find_publisher = s.find<Publisher>().where("name = ?").bind(name);
+		}
+		else if (find_val == "id") {
+			int id;
+			std::cout << "Введите id издателя:" << std::endl;
+			std::cin >> id;
+
+			find_publisher = s.find<Publisher>().where("id = ?").bind(id);
+		}
+		else {
+			std::cout << "Введен неверный параметр!" << std::endl;
+		}
+
+		if (find_publisher) {
+			std::cout << "Издатель найден! " << find_publisher->name << std::endl;
+			std::cout << "Список магазинов, в которых продаются его книги:" << std::endl;
+
+			std::set<std::string> shops;
 			for (const auto& book : find_publisher->books) {
 				for (const auto& stock : book->stocks) {
-					std::cout << stock->idShop->name << std::endl;
+					shops.insert(stock->idShop->name);
 				}
 			}
+
+			for (const auto& shop_name : shops) {
+				std::cout << shop_name << ", ";
+			}
+			std::cout << std::endl;
+		}
+		else {
+			std::cout << "Издатель не найден!" << std::endl;
 		}
 
 		tr2.commit();
@@ -212,5 +198,6 @@ int main() {
 	catch (std::exception& err) {
 		std::cout << "Error: " << err.what() << std::endl;
 	}
+
 	return 0;
 }
