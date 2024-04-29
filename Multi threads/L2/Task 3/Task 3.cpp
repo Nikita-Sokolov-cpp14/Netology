@@ -63,6 +63,7 @@ void swap_in_thread(Data& d1, Data& d2) {
 
     d1.print_data();
     d2.print_data();
+
     swap_lock(d1, d2);
 
     d1.print_data();
