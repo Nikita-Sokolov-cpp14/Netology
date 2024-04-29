@@ -13,6 +13,7 @@ void goToXY(short x, short y) {
     SetConsoleCursorPosition(hConsole, { x, y });
 }
 
+//немного измененный старый вариант
 void foo(short number, float time) {
 
     auto start = std::chrono::steady_clock::now();
@@ -61,11 +62,14 @@ void foo(short number, float time) {
     ul.unlock();
 }
 
-void foo_2(short number, int time, int progres) {
+//новый вариант
+void foo_2(short number, int time) {
     std::unique_lock ul(global_mutex);
 
     auto start = std::chrono::steady_clock::now();
     int moment = time;
+
+    int progres = 0;
 
     goToXY(1, number + 1);
     std::cout << "\n " << number << "\tid = " << std::this_thread::get_id() << "\t[";
@@ -126,16 +130,10 @@ int main() {
     std::cout << "Поток\tid \t\t progres bar" << std::endl;
 
     std::vector<std::unique_ptr<std::thread>> trs;
-    std::vector<short> progres(N);
-
-    for (int i = 0; i < N; ++i) {
-        progres[i] = 0;
-    }
 
     for (int i = 0; i < N; ++i) {
 
-        trs.emplace_back(std::make_unique<std::thread>(
-            foo_2, i + 1, t, std::ref(progres[i])));
+        trs.emplace_back(std::make_unique<std::thread>(foo_2, i + 1, t));
         //trs.emplace_back(std::make_unique<std::thread>(foo, i + 1, t));
     }
 

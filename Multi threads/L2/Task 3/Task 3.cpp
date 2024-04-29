@@ -37,6 +37,20 @@ void swap_lock(Data& d1, Data& d2) {
     Data buf(d1);
     d1 = d2;
     d2 = buf;
+
+    d1.mut.unlock();
+    d2.mut.unlock();
+
+    /*выриант 2
+    std::lock(d1.mut, d2.mut);
+
+    Data buf(d1);
+    d1 = d2;
+    d2 = buf;
+
+    d1.mut.unlock();
+    d2.mut.unlock();
+    */
 }
 
 void swap_scoped(Data& d1, Data& d2) {
