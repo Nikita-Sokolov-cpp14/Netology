@@ -14,20 +14,22 @@ void goToXY(short x, short y) {
 }
 
 void foo(short number, float time) {
-    std::unique_lock<std::mutex> mlg(global_mutex, std::defer_lock);
-    mlg.lock();
+
+    auto start = std::chrono::steady_clock::now();
+
+    std::unique_lock ul(global_mutex);
 
     int moment = static_cast<int>(time * 1000);
 
     goToXY(1, number + 1);
     std::cout << "\n " << number << "\tid = " << std::this_thread::get_id() << "\t[";
 
-    mlg.unlock();
+    ul.unlock();
 
     try {
         for (short progres = 0; progres < 50; ++progres) {
 
-            mlg.lock();
+            std::this_thread::sleep_for(std::chrono::milliseconds(moment));
 
             SetConsoleTextAttribute(hConsole, 7);
 
@@ -36,26 +38,31 @@ void foo(short number, float time) {
                 throw std::exception("Случайный выпад");
             }
 
+            ul.lock();
             goToXY(progres + 25, number + 2);
             if (progres != 49) {
                 std::cout << "=";
-            }
+            }     
             else {
                 std::cout << ">";
             }
-
-            mlg.unlock();
-
-            std::this_thread::sleep_for(std::chrono::milliseconds(moment));
+            ul.unlock();
         }
     }
     catch (const std::exception& err) {
-        SetConsoleTextAttribute(hConsole, 31);
+        //SetConsoleTextAttribute(hConsole, 31);
+        ul.lock();
         goToXY(80, number + 2);
         std::cout << "ERROR";
-        mlg.unlock();
+        ul.unlock();
+        return;
     }
-    
+    ul.lock();
+    auto end = std::chrono::steady_clock::now();
+    goToXY(80, number + 2);
+    std::chrono::duration<double> dur = end - start;
+    std::cout << "time = " << dur.count();
+    ul.unlock();
 }
 
 int main() {

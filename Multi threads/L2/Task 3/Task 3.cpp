@@ -29,20 +29,19 @@ public:
 };
 
 void swap_lock(Data& d1, Data& d2) {
-    d1.mut.lock();
-    d2.mut.lock();
+
+    //std::lock(d1.mut, d2.mut);
+    std::lock_guard  lg_1(d1.mut);
+    std::lock_guard  lg_2(d2.mut);
 
     Data buf(d1);
     d1 = d2;
     d2 = buf;
-
-    d1.mut.unlock();
-    d2.mut.unlock();
 }
 
 void swap_scoped(Data& d1, Data& d2) {
 
-    std::scoped_lock(d1.mut, d2.mut);
+    std::scoped_lock sl1(d1.mut, d2.mut);
 
     Data buf(d1);
     d1 = d2;
@@ -51,12 +50,23 @@ void swap_scoped(Data& d1, Data& d2) {
 
 void swap_unique(Data& d1, Data& d2) {
 
-    std::unique_lock ul_1(d1.mut);
-    std::unique_lock ul_2(d2.mut);
+    std::unique_lock ul_1(d1.mut, std::defer_lock);
+    std::unique_lock ul_2(d2.mut, std::defer_lock);
+    std::lock(ul_1, ul_2);
 
     Data buf(d1);
     d1 = d2;
     d2 = buf;
+}
+
+void swap_in_thread(Data& d1, Data& d2) {
+
+    d1.print_data();
+    d2.print_data();
+    swap_lock(d1, d2);
+
+    d1.print_data();
+    d2.print_data();
 }
 
 int main()
@@ -64,14 +74,9 @@ int main()
     Data data_1(10, 20);
     Data data_2(63, 12);
 
-    data_1.print_data();
-    data_2.print_data();
+    std::thread t1(swap_in_thread, std::ref(data_1), std::ref(data_2));
 
-    swap_unique(data_1, data_2);
-
-    std::cout << std::endl;
-    data_1.print_data();
-    data_2.print_data();
+    t1.join();
 
     return 0;
 }
