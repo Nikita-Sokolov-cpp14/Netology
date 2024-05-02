@@ -30,27 +30,13 @@ public:
 
 void swap_lock(Data& d1, Data& d2) {
 
-    //std::lock(d1.mut, d2.mut);
-    std::lock_guard  lg_1(d1.mut);
-    std::lock_guard  lg_2(d2.mut);
-
-    Data buf(d1);
-    d1 = d2;
-    d2 = buf;
-
-    d1.mut.unlock();
-    d2.mut.unlock();
-
-    /*выриант 2
     std::lock(d1.mut, d2.mut);
+    std::lock_guard  lg_1(d1.mut, std::adopt_lock);
+    std::lock_guard  lg_2(d2.mut, std::adopt_lock);
 
     Data buf(d1);
     d1 = d2;
     d2 = buf;
-
-    d1.mut.unlock();
-    d2.mut.unlock();
-    */
 }
 
 void swap_scoped(Data& d1, Data& d2) {

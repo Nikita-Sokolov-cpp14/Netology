@@ -13,7 +13,7 @@ void goToXY(short x, short y) {
     SetConsoleCursorPosition(hConsole, { x, y });
 }
 
-//немного измененный старый вариант
+//1 вариант
 void foo(short number, float time) {
 
     auto start = std::chrono::steady_clock::now();
@@ -62,7 +62,7 @@ void foo(short number, float time) {
     ul.unlock();
 }
 
-//новый вариант
+//2 вариант
 void foo_2(short number, int time) {
     std::unique_lock ul(global_mutex);
 
@@ -115,6 +115,59 @@ void foo_2(short number, int time) {
     ul.unlock();
 }
 
+//3 вариант
+void foo_3(short number, int time) {
+    std::unique_lock ul(global_mutex);
+
+    auto start = std::chrono::steady_clock::now();
+    int moment = time;
+
+    int progres = 0;
+
+    goToXY(1, number + 1);
+    std::cout << "\n " << number << "\tid = " << std::this_thread::get_id() << "\t[";
+    ul.unlock();
+
+    try {
+        while (progres < 50) {
+
+            ul.lock();
+            int trig = rand() / 100;
+            if (trig == number) {
+                throw std::exception("Случайный выпад");
+            }
+            ul.unlock();
+
+            if (progres < 49) {
+                ul.lock();
+                goToXY(progres + 25, number + 2);
+                ul.unlock();
+                std::cout << "=";
+            }
+            progres++;
+
+            std::this_thread::sleep_for(std::chrono::milliseconds(moment));
+        }
+    }
+    catch (const std::exception& err) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(2 * moment));
+        goToXY(78, number + 2);
+        std::cout << "ERROR";
+        return;
+    }
+
+    ul.lock();
+    std::this_thread::sleep_for(std::chrono::milliseconds(2 * moment));
+    goToXY(76, number + 2);
+    std::cout << ">";
+
+    auto end = std::chrono::steady_clock::now();
+    goToXY(78, number + 2);
+    std::chrono::duration<double> dur = end - start;
+    std::cout << "time = " << dur.count();
+    ul.unlock();
+}
+
 int main() {
 
     setlocale(LC_ALL, "Russian");
@@ -124,7 +177,7 @@ int main() {
 
     std::cout << "Введите число потоков: ";
     std::cin >> N;
-    std::cout << "Введите время вычисления: ";
+    std::cout << "Введите время вычисления в мс: ";
     std::cin >> t;
 
     std::cout << "Поток\tid \t\t progres bar" << std::endl;
@@ -133,8 +186,10 @@ int main() {
 
     for (int i = 0; i < N; ++i) {
 
-        trs.emplace_back(std::make_unique<std::thread>(foo_2, i + 1, t));
+        //trs.emplace_back(std::make_unique<std::thread>(foo_2, i + 1, t));
         //trs.emplace_back(std::make_unique<std::thread>(foo, i + 1, t));
+        trs.emplace_back(std::make_unique<std::thread>(foo_3, i + 1, t));
+
     }
 
     for (int i = 0; i < N; ++i) {
