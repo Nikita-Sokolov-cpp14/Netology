@@ -5,171 +5,61 @@
 #include <mutex>
 #include <windows.h>
 
+#include "Timer.h"
+
 std::mutex global_mutex;
-HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-
-
-void goToXY(short x, short y) {
-    SetConsoleCursorPosition(hConsole, { x, y });
-}
-
-//1 вариант
-void foo(short number, float time) {
-
-    auto start = std::chrono::steady_clock::now();
-
-    std::unique_lock ul(global_mutex);
-
-    int moment = static_cast<int>(time * 1000 / 50);
-
-    goToXY(1, number + 1);
-    std::cout << "\n " << number << "\tid = " << std::this_thread::get_id() << "\t[";
-
-    ul.unlock();
-
-    try {
-        for (short progres = 0; progres < 50; ++progres) {
-            std::this_thread::sleep_for(std::chrono::milliseconds(moment));
-
-            int trig = rand() / 300;
-            if (trig == number) {
-                throw std::exception("Случайный выпад");
-            }
-
-            ul.lock();
-            goToXY(progres + 25, number + 2);
-            if (progres != 49) {
-                std::cout << "=";
-            }
-            else {
-                std::cout << ">";
-            }
-            ul.unlock();
-        }
-    }
-    catch (const std::exception& err) {
-        ul.lock();
-        goToXY(80, number + 2);
-        std::cout << "ERROR";
-        ul.unlock();
-        return;
-    }
-    ul.lock();
-    auto end = std::chrono::steady_clock::now();
-    goToXY(80, number + 2);
-    std::chrono::duration<double> dur = end - start;
-    std::cout << "time = " << dur.count();
-    ul.unlock();
-}
-
-//2 вариант
-void foo_2(short number, int time) {
-    std::unique_lock ul(global_mutex);
-
-    auto start = std::chrono::steady_clock::now();
-    int moment = time;
-
-    int progres = 0;
-
-    goToXY(1, number + 1);
-    std::cout << "\n " << number << "\tid = " << std::this_thread::get_id() << "\t[";
-    ul.unlock();
-
-    try {
-        while (progres < 400) {
-         
-            ul.lock();
-            int trig = rand() / 100;
-            if (trig == number) {
-                throw std::exception("Случайный выпад");
-            }
-            ul.unlock();
-            
-            if (progres / 8 < 49) {
-                ul.lock();
-                goToXY(progres / 8 + 25, number + 2);
-                ul.unlock();
-                std::cout << "=";
-            }
-            progres++;
-
-            std::this_thread::sleep_for(std::chrono::milliseconds(moment));
-        }
-    }
-    catch (const std::exception& err) {
-        std::this_thread::sleep_for(std::chrono::milliseconds(2 * moment));
-        goToXY(78, number + 2);
-        std::cout << "ERROR";
-        return;
-    }
-
-    ul.lock();
-    std::this_thread::sleep_for(std::chrono::milliseconds(2 * moment));
-    goToXY(76, number + 2);
-    std::cout << ">";
-
-    auto end = std::chrono::steady_clock::now();
-    goToXY(78, number + 2);
-    std::chrono::duration<double> dur = end - start;
-    std::cout << "time = " << dur.count();
-    ul.unlock();
-}
 
 //3 вариант
 void foo_3(short number, int time) {
+
     std::unique_lock ul(global_mutex);
 
     auto start = std::chrono::steady_clock::now();
-    int moment = time;
-
+    int moment = time * 1000 / 200;
     int progres = 0;
 
-    goToXY(1, number + 1);
-    std::cout << "\n " << number << "\tid = " << std::this_thread::get_id() << "\t[";
-    ul.unlock();
+    consol_parameter::SetColor(7, 0);
+    consol_parameter::SetPosition(1, number + 1);
+    std::cout << "\n " << number << "\tid = " << std::this_thread::get_id() << "\t";
 
+    ul.unlock();
     try {
-        while (progres < 50) {
+        while (progres < 25) {
+
+            std::this_thread::sleep_for(std::chrono::milliseconds(moment));
 
             ul.lock();
-            int trig = rand() / 100;
+            int trig = rand() / 50;
             if (trig == number) {
                 throw std::exception("Случайный выпад");
             }
-            ul.unlock();
 
-            if (progres < 49) {
-                ul.lock();
-                goToXY(progres + 25, number + 2);
-                ul.unlock();
-                std::cout << "=";
-            }
+            consol_parameter::SetColor(7,7);
+            consol_parameter::SetPosition(progres + 25, number + 2);
+            std::cout << " ";
+            
             progres++;
-
             std::this_thread::sleep_for(std::chrono::milliseconds(moment));
+            ul.unlock();
         }
     }
     catch (const std::exception& err) {
-        std::this_thread::sleep_for(std::chrono::milliseconds(2 * moment));
-        goToXY(78, number + 2);
+        consol_parameter::SetColor(4, 0);
+        consol_parameter::SetPosition(53, number + 2);
         std::cout << "ERROR";
         return;
     }
 
     ul.lock();
-    std::this_thread::sleep_for(std::chrono::milliseconds(2 * moment));
-    goToXY(76, number + 2);
-    std::cout << ">";
-
     auto end = std::chrono::steady_clock::now();
-    goToXY(78, number + 2);
+    consol_parameter::SetColor(7, 0);
+    consol_parameter::SetPosition(53, number + 2);
     std::chrono::duration<double> dur = end - start;
     std::cout << "time = " << dur.count();
     ul.unlock();
 }
 
 int main() {
-
     setlocale(LC_ALL, "Russian");
 
     int N = 1;
@@ -177,7 +67,7 @@ int main() {
 
     std::cout << "Введите число потоков: ";
     std::cin >> N;
-    std::cout << "Введите время вычисления в мс: ";
+    std::cout << "Введите примерное время вычисления в с: ";
     std::cin >> t;
 
     std::cout << "Поток\tid \t\t progres bar" << std::endl;
@@ -185,18 +75,15 @@ int main() {
     std::vector<std::unique_ptr<std::thread>> trs;
 
     for (int i = 0; i < N; ++i) {
-
-        //trs.emplace_back(std::make_unique<std::thread>(foo_2, i + 1, t));
-        //trs.emplace_back(std::make_unique<std::thread>(foo, i + 1, t));
         trs.emplace_back(std::make_unique<std::thread>(foo_3, i + 1, t));
-
     }
 
     for (int i = 0; i < N; ++i) {
         trs[i]->join();
     }
 
-    goToXY(0, N + 3);
+    consol_parameter::SetColor(7, 0);
+    consol_parameter::SetPosition(0, N + 3);
 
     return 0;
 }

@@ -59,25 +59,31 @@ void swap_unique(Data& d1, Data& d2) {
     d2 = buf;
 }
 
-void swap_in_thread(Data& d1, Data& d2) {
-
-    d1.print_data();
-    d2.print_data();
-
-    swap_lock(d1, d2);
-
-    d1.print_data();
-    d2.print_data();
-}
-
 int main()
 {
     Data data_1(10, 20);
     Data data_2(63, 12);
 
-    std::thread t1(swap_in_thread, std::ref(data_1), std::ref(data_2));
+    data_1.print_data();
+    data_2.print_data();
 
-    t1.join();
+    swap_lock(data_1, data_2);
+
+    std::cout << "swap_lock" << std::endl;
+    data_1.print_data();
+    data_2.print_data();
+
+    swap_scoped(data_1, data_2);
+
+    std::cout << "swap_scoped" << std::endl;
+    data_1.print_data();
+    data_2.print_data();
+
+    swap_unique(data_1, data_2);
+
+    std::cout << "swap_unique" << std::endl;
+    data_1.print_data();
+    data_2.print_data();
 
     return 0;
 }
