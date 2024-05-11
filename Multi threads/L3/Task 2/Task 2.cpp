@@ -18,38 +18,31 @@ void calc_foo(std::vector<int>::iterator it_begin, std::vector<int>::iterator it
 void for_each(std::vector<int>::iterator it_begin, std::vector<int>::iterator it_end,
         void(*foo)(std::vector<int>::iterator, std::vector<int>::iterator)) {
 
-    int i = 1;
-    std::vector<int>::iterator it_buf = it_begin;
-    while (i != elems_in_block && it_buf != it_end) {
-        i++;
-        it_buf++;
-    }
+    int length = it_end - it_begin; // только для вектора
 
-    auto calc{std::async(foo, it_begin, it_buf)};
-
-    if (it_buf != it_end) {
+    if (length / 2 > elems_in_block) {
+        std::vector<int>::iterator it_buf = it_begin + length / 2;
+        auto calc{ std::async(foo, it_begin, it_buf) };
         for_each(it_buf, it_end, foo);
-        it_buf++;
+        calc.wait();
     }
-
-    calc.wait();
+    else {
+        calc_foo(it_begin, it_end);
+    }
 }
 
 void for_each_one_thread(std::vector<int>::iterator it_begin, std::vector<int>::iterator it_end,
     void(*foo)(std::vector<int>::iterator, std::vector<int>::iterator)) {
     
-    int i = 1;
-    std::vector<int>::iterator it_buf = it_begin;
-    while (i != elems_in_block && it_buf != it_end) {
-        i++;
-        it_buf++;
-    }
+    int length = it_end - it_begin; // только для вектора
 
-    foo(it_begin, it_buf);
-
-    if (it_buf != it_end) {
+    if (length / 2 > elems_in_block) {
+        std::vector<int>::iterator it_buf = it_begin + length / 2;
+        foo(it_begin, it_buf);
         for_each_one_thread(it_buf, it_end, foo);
-        it_buf++;
+    }
+    else {
+        calc_foo(it_begin, it_end);
     }
 }
 
@@ -76,7 +69,7 @@ int main()
     auto end = std::chrono::steady_clock::now();
     std::chrono::duration<double> dur = end - start;
 
-    std::cout << "Контейнер после преобразования" << std::endl;
+    std::cout << "Контейнер после преобразования:" << std::endl;
     for (const auto& val : vec) {
         std::cout << val << " ";
     }
