@@ -20,12 +20,20 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="shape.cpp" />
-    <ClCompile Include="transform.cpp" />
+    <ClCompile Include="sources\circle.cpp" />
+    <ClCompile Include="sources\cube.cpp" />
+    <ClCompile Include="sources\cylinder.cpp" />
+    <ClCompile Include="sources\line.cpp" />
+    <ClCompile Include="sources\shape.cpp" />
+    <ClCompile Include="sources\square.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="shape.h" />
-    <ClInclude Include="transform.h" />
+    <ClInclude Include="headers\circle.h" />
+    <ClInclude Include="headers\cube.h" />
+    <ClInclude Include="headers\cylinder.h" />
+    <ClInclude Include="headers\line.h" />
+    <ClInclude Include="headers\shape.h" />
+    <ClInclude Include="headers\square.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -79,6 +87,12 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>headers/;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>headers/;$(IncludePath)</IncludePath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
