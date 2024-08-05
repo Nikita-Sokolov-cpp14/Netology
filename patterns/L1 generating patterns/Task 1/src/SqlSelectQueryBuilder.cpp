@@ -5,7 +5,7 @@ void SqlSelectQueryBuilder::AddColumn(const std::vector<std::string>& columns) {
 }
 
 void SqlSelectQueryBuilder::AddFrom(const std::string& from) {
-    sqlSelectQuery.from = from;
+    sqlSelectQuery.tableName = from;
 }
 
 void SqlSelectQueryBuilder::AddWhere(const std::map<std::string, std::string>& where) {

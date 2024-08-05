@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
 project(task1)
 include_directories(src)
-file(GLOB src *.cpp)
+file(GLOB src src/*.cpp main.cpp)
 add_executable(task1 ${src})

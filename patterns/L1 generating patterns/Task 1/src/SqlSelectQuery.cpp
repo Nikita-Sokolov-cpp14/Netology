@@ -15,7 +15,7 @@ std::string SqlSelectQuery::makeQuerry() {
 
     querry_ += " WHERE";
     for (auto val : where) {
-        querry_ += val.first() + " = " + val.second();
+        querry_ += val.first + " = " + val.second;
     }
 
     querry_ += ";";
