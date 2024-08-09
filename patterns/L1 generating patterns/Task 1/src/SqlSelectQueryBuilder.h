@@ -2,14 +2,15 @@
 #include <vector>
 #include <map>
 
-#include "SqlSelectQuery.h"
+#include "SqlSelectQueryData.h"
 
 class SqlSelectQueryBuilder {
 public:
-    void AddColumn(const std::vector<std::string>& columns);
-    void AddFrom(const std::string& from);
-    void AddWhere(const std::map<std::string, std::string>& where);
+    SqlSelectQueryBuilder& AddColumn(const std::vector<std::string> &columns);
+    SqlSelectQueryBuilder &AddColumn(const std::string &column);
+    SqlSelectQueryBuilder& AddFrom(const std::string &from);
+    SqlSelectQueryBuilder& AddWhere(const std::map<std::string, std::string> &where);
     std::string BuildQuery();
 private:
-    SqlSelectQuery sqlSelectQuery;
+    SqlSelectQueryData sqlSelectQueryData;
 };

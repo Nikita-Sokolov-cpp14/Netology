@@ -3,13 +3,8 @@
 #include <vector>
 #include <map>
 
-class SqlSelectQuery {
-public:
+struct SqlSelectQueryData {
     std::vector<std::string> columns;
     std::string tableName;
     std::map<std::string, std::string> where;
-
-    std::string makeQuerry();
-private:
-    std::string querry_;
 };
