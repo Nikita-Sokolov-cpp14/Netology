@@ -82,28 +82,19 @@ public:
     void warning(const std::string& message) const {
         for (const auto& observer : observers_) {
             std::shared_ptr<Observer> observerIsAlive = observer.lock();
-            if (observerIsAlive != nullptr) {
-                observerIsAlive = std::make_shared<WarningObserver>();
-                observerIsAlive->onWarning(message);
-            }
+            observerIsAlive->onWarning(message);
         }
     }
     void error(const std::string& message) const {
         for (const auto& observer : observers_) {
             std::shared_ptr<Observer> observerIsAlive = observer.lock();
-            if (observerIsAlive != nullptr) {
-                observerIsAlive = std::make_shared<ErrorObserver>();
-                observerIsAlive->onError(message);
-            }
+            observerIsAlive->onError(message);
         }
     }
     void fatalError(const std::string& message) const {
         for (const auto& observer : observers_) {
             std::shared_ptr<Observer> observerIsAlive = observer.lock();
-            if (observerIsAlive != nullptr) {
-                observerIsAlive = std::make_shared<FatalErrorObserver>();
-                observerIsAlive->onFatalError(message);
-            }
+            observerIsAlive->onFatalError(message);
         }
     }
 
@@ -116,16 +107,16 @@ private:
 };
 
 int main() {
-    std::shared_ptr<Observer> obs1 = std::make_shared<Observer>();
-    std::shared_ptr<Observer> obs2 = std::make_shared<Observer>();
+    std::shared_ptr<Observer> obs1 = std::make_shared<WarningObserver>();
+    std::shared_ptr<Observer> obs2 = std::make_shared<FatalErrorObserver>();
 
     Observered observered;
     observered.addObserver(obs1);
     observered.addObserver(obs2);
 
     {
-        std::shared_ptr<Observer> obs3 = std::make_shared<Observer>();
-        std::shared_ptr<Observer> obs4 = std::make_shared<Observer>();
+        std::shared_ptr<Observer> obs3 = std::make_shared<ErrorObserver>();
+        std::shared_ptr<Observer> obs4 = std::make_shared<WarningObserver>();
         observered.addObserver(obs3);
         observered.addObserver(obs4);
         observered.warning("warning_message");
