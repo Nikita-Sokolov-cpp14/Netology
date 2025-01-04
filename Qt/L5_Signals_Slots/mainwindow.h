@@ -26,8 +26,6 @@ public:
     ~MainWindow();
 
 private slots:
-    void rcvOnStart();
-    void rcvOnStop();
     void rcvFullTime(const int msecs);
     void rcvLap(const int lap, const int msec);
 

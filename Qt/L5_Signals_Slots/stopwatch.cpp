@@ -31,7 +31,6 @@ void Stopwatch::fixLap()
 }
 
 void Stopwatch::start() {
-    emit sig_start();
     timer.start(10);
     timerLap.start(10);
     startTime = QTime::currentTime();
@@ -49,6 +48,5 @@ void Stopwatch::start() {
 }
 
 void Stopwatch::stop() {
-    emit sig_stop();
     timer.stop();
 }

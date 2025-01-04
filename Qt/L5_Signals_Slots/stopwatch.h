@@ -18,8 +18,6 @@ public:
     void fixLap();
 
 signals:
-    void sig_start();
-    void sig_stop();
     void sig_sendFullTime(const int msec);
     void sig_fixLap(const int lap, const int msec);
 
