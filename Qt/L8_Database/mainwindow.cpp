@@ -18,6 +18,7 @@ MainWindow::MainWindow(QWidget *parent)
     dataDb = new DbData(this);
     dataBase = new DataBase(this);
     msg = new QMessageBox(this);
+    headers << "Название фильма" << "Описание фильма";
 
     //Установим размер вектора данных для подключения к БД
     dataForConnect.resize(NUM_DATA_FOR_CONNECT_TO_DB);
@@ -118,10 +119,31 @@ void MainWindow::on_pb_request_clicked()
  * \param widget
  * \param typeRequest
  */
-void MainWindow::ScreenDataFromDB(QTableWidget *widget, int typeRequest)
+void MainWindow::ScreenDataFromDB(QTableView* table, int typeRequest)
 {
-    tableWidget = widget;
-    // ui->tb_result->layout()->addWidget(tableWidget);
+    QAbstractItemModel* model = table->model();
+    if (model == nullptr) {
+        return;
+    }
+    ui->tb_result->setColumnCount(2);
+    ui->tb_result->setRowCount(model->rowCount());
+    // ui->tb_result->layout()->addWidget(table);
+    ui->tb_result->setHorizontalHeaderLabels(headers);
+
+    int correct;
+    if (typeRequest == 0) {
+        correct = 0;
+    } else {
+        correct = 1;
+    }
+
+    for (int row = 0; row < model->rowCount(); ++row) {
+        for (int col = 1 - correct; col <= 2 - correct; ++col) {
+            QString text = model->data(model->index(row, col)).toString();
+            QTableWidgetItem *item = new QTableWidgetItem(text);
+            ui->tb_result->setItem(row, col - 1 + correct, item);
+        }
+    }
 }
 
 /*!
@@ -147,5 +169,10 @@ void MainWindow::ReceiveStatusConnectionToDB(bool status)
 
 }
 
-
+void MainWindow::on_pb_clear_clicked()
+{
+    ui->tb_result->clear();
+    ui->tb_result->setColumnCount(0);
+    ui->tb_result->setRowCount(0);
+}
 

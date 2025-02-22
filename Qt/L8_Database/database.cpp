@@ -1,11 +1,11 @@
 #include "database.h"
+#include <qheaderview.h>
 
 DataBase::DataBase(QObject *parent)
     : QObject{parent}
 {
     dataBase = new QSqlDatabase();
-    table = new QTableWidget();
-    headers << "Название фильма" << "Описание фильма";
+    table = new QTableView();
 }
 
 DataBase::~DataBase()
@@ -63,31 +63,19 @@ void DataBase::DisconnectFromDataBase(QString nameDb)
  */
 void DataBase::RequestToDB(QString request)
 {
+    int typeRequest;
     if (request == "") {
         tableModel->setTable("film");
         tableModel->select();
-        fillTable(tableModel, table);
+        table->setModel(tableModel);
+        typeRequest = 0;
     } else {
         queryModel->setQuery(request, *dataBase);
-        fillTable(queryModel, table);
+        table->setModel(queryModel);
+        typeRequest = 1;
     }
-    table->show();
-    emit sig_SendDataFromDB(table, 0);
-}
 
-void DataBase::fillTable(const QAbstractTableModel* model, QTableWidget* tableWidget) {
-    table->clear();
-    table->setColumnCount(2);
-    table->setHorizontalHeaderLabels(headers);
-
-    table->setRowCount(model->rowCount());
-    for (int row = 0; row < model->rowCount(); ++row) {
-        for (int col = 1; col <= 2; ++col) {
-            QString text = model->data(model->index(row, col)).toString();
-            QTableWidgetItem *item = new QTableWidgetItem(text);
-            tableWidget->setItem(row, col, item);
-        }
-    }
+    emit sig_SendDataFromDB(table, typeRequest);
 }
 
 /*!

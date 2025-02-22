@@ -49,23 +49,16 @@ public:
 
 
 signals:
-
-   void sig_SendDataFromDB(QTableWidget *tableWg, int typeR);
+   void sig_SendDataFromDB(QTableView* table, int typeR);
    void sig_SendStatusConnection(bool);
 
 
 
 private:
-
     QSqlDatabase* dataBase;
     QSqlTableModel* tableModel;
     QSqlQueryModel* queryModel;
-    QTableWidget* table;
-
-    QStringList headers;
-
-    void fillTable(const QAbstractTableModel* model, QTableWidget* tableWidget);
-
+    QTableView* table;
 };
 
 #endif // DATABASE_H
