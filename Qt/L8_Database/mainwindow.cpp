@@ -115,33 +115,30 @@ void MainWindow::on_pb_request_clicked()
 }
 
 /*!
- * \brief Слот отображает значение в QTableWidget
+ * \brief Слот отображает значение в QTableView
  * \param widget
  * \param typeRequest
  */
 void MainWindow::ScreenDataFromDB(QTableView* table, int typeRequest)
 {
-    QAbstractItemModel* model = table->model();
-    if (model == nullptr) {
+    if (table == nullptr) {
         return;
     }
-    ui->tb_result->setColumnCount(2);
-    ui->tb_result->setRowCount(model->rowCount());
-    // ui->tb_result->layout()->addWidget(table);
-    ui->tb_result->setHorizontalHeaderLabels(headers);
 
-    int correct;
+    QVector<int> visibleCol;
     if (typeRequest == 0) {
-        correct = 0;
+        visibleCol = {1, 2};
     } else {
-        correct = 1;
+        visibleCol = {0, 1};
     }
+    ui->tb_result->setModel(table->model());
 
-    for (int row = 0; row < model->rowCount(); ++row) {
-        for (int col = 1 - correct; col <= 2 - correct; ++col) {
-            QString text = model->data(model->index(row, col)).toString();
-            QTableWidgetItem *item = new QTableWidgetItem(text);
-            ui->tb_result->setItem(row, col - 1 + correct, item);
+    for (int i = 0; i < table->model()->columnCount(); ++i) {
+        if (visibleCol.contains(i)) {
+            ui->tb_result->showColumn(i);
+            continue;
+        } else {
+            ui->tb_result->hideColumn(i);
         }
     }
 }
@@ -171,8 +168,6 @@ void MainWindow::ReceiveStatusConnectionToDB(bool status)
 
 void MainWindow::on_pb_clear_clicked()
 {
-    ui->tb_result->clear();
-    ui->tb_result->setColumnCount(0);
-    ui->tb_result->setRowCount(0);
+    ui->tb_result->setModel(nullptr);
 }
 
